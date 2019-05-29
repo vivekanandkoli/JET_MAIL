@@ -1,0 +1,49 @@
+package MAIL_Config;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Properties;
+
+public class Main_Operations {
+
+	public static void main(String[] args) throws Exception
+	{
+		
+		int i,r=1;
+		
+		
+		File JET_config_file = new File("JET_config_file.properties");
+		InputStream inputStream = new FileInputStream(JET_config_file);
+		Properties props = new Properties();
+		props.load(inputStream);
+		 
+		String Data_path=props.getProperty("Data_path");
+		String Attachment_Path=props.getProperty("Attachment_Path");
+		
+		 WriteExcel rw = new WriteExcel();
+		
+		String s = new SimpleDateFormat("dd.MM.yyyy").format(Calendar.getInstance().getTime());
+		String folderpath = props.getProperty("Report_folder_path")+s;
+		String ExcelSavePath = rw.foldercreate(folderpath);
+		
+		Excel_operations Exop=new Excel_operations(Data_path);
+		Mail mail_send=new Mail();
+		
+		for(i=1;i<182;i++)
+		{
+		String Receiver_Email_ID=Exop.getCellData("FAIL","Em_ID",i);
+		
+		Receiver_Email_ID=Receiver_Email_ID.replaceAll("( +)"," ").trim();
+		System.out.println(i+"__"+Receiver_Email_ID);
+		Thread.sleep(2000);
+		mail_send.SendMail(Attachment_Path,Receiver_Email_ID,r++,ExcelSavePath);
+		}
+
+	}
+
+}
