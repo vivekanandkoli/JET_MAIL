@@ -52,7 +52,7 @@ public class Mail
 		 String Subject = null; String Body = null;
          ID = "vivekanand.koli@kalelogistics.in";
      //    Sender = "vivekanand.koli@kalelogistics.in";
-         Subject = "Jet Airways-Data Transmission_FWB-FHL";
+         Subject = "Jet Airways-Data Transmission FWB-FHL";
 
          Mail pgm = new Mail();
          String mailbody = pgm.MailBody_HTML();
@@ -142,7 +142,7 @@ public class Mail
              String from = "uplift.support@kalelogistics.in";
              try
              {
-            	 
+            	System.out.println(""); 
             	 MimeMessage message = new MimeMessage(session);
 
              	   // Set From: header field of the header.
@@ -167,7 +167,7 @@ public class Mail
             String filename= ExcelPath;
                DataSource source=new FileDataSource(filename);
              messageBodyPart.setDataHandler(new DataHandler(source));  	 
-         messageBodyPart.setFileName("Data Transmission - FHL-FWB.pdf");
+         messageBodyPart.setFileName("Data Transmission -FHL-FWB.pdf");
      	multipart.addBodyPart(messageBodyPart);
          	message.setContent(multipart);
             // Send message
@@ -178,7 +178,8 @@ public class Mail
           Status="Pass";
           message = null;
           rw.WriteToExcel(To, Status, r++, ExcelSavePath,Time);
-            return 1;		
+            return 1;	
+            
          }
          catch (Exception ex)
          {
